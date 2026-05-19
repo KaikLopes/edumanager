@@ -12,6 +12,14 @@ app.use(express.json());
 
 let bancoAlunos = [];
 
+// ---------------------------------------------------------
+// RESPONSÁVEL: Lucas Pereira (US2 - Listar Alunos)
+// Rota para enviar a lista de alunos para o Frontend
+// ---------------------------------------------------------
+app.get('/alunos', (req, res) => {
+    res.json(bancoAlunos);
+});
+
 
 // ---------------------------------------------------------
 // RESPONSÁVEL: Ruan Vituriano (US3 - Matricular Aluno)

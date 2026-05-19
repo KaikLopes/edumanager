@@ -37,7 +37,21 @@
         const API_URL = 'http://localhost:3000/alunos';
 
 
-
+        async function carregarAlunos() {
+            const resposta = await fetch(API_URL);
+            const alunos = await resposta.json();
+            const lista = document.getElementById('listaAlunos');
+            lista.innerHTML = '';
+            
+            alunos.forEach(aluno => {
+                lista.innerHTML += `
+                    <li>
+                        <div><strong>${aluno.nome}</strong> <br> <small>${aluno.curso}</small></div>
+                        <button class="btn-delete" onclick="deletarAluno(${aluno.id})">Remover</button>
+                    </li>
+                `;
+            });
+        }
         // ---------------------------------------------------------
         // RESPONSÁVEL: Ruan Vituriano (US4 - Exclusão)
         // ---------------------------------------------------------
@@ -50,5 +64,6 @@
         // Carrega a lista automaticamente ao abrir a página
         carregarAlunos();
     </script>
+
 </body>
 </html>
