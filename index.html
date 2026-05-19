@@ -31,12 +31,13 @@
         <ul id="listaAlunos"></ul>
     </div>
 
-
     <script>
         // Aponta para o nosso backend em Node
         const API_URL = 'http://localhost:3000/alunos';
 
-
+        // ---------------------------------------------------------
+        // RESPONSÁVEL: Lucas Pereira (US2 - Listagem)
+        // ---------------------------------------------------------
         async function carregarAlunos() {
             const resposta = await fetch(API_URL);
             const alunos = await resposta.json();
