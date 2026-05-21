@@ -47,7 +47,11 @@
             alunos.forEach(aluno => {
                 lista.innerHTML += `
                     <li>
-                        <div><strong>${aluno.nome}</strong> <br> <small>${aluno.curso}</small></div>
+                        <div>
+                            <strong>${aluno.nome}</strong> 
+                            <br> 
+                            <small>${aluno.curso}</small>
+                        </div>
                         <button class="btn-delete" onclick="deletarAluno(${aluno.id})">Remover</button>
                     </li>
                 `;

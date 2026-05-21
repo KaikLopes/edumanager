@@ -27,13 +27,39 @@ app.get('/alunos', (req, res) => {
 // ---------------------------------------------------------
 app.post('/alunos', (req, res) => {
     const novoAluno = req.body;
+
+    // Adiciona uma propriedade 'id' automaticamente antes de salvar
+    novoAluno.id = bancoAlunos.length + 1;
+
     bancoAlunos.push(novoAluno);
     res.status(201).json({ mensagem: "Aluno matriculado com sucesso!" });
 });
 
+app.put('/alunos/:id', (req, res) => {
+    // 1. Pega o ID enviado na URL (ex: /alunos/2) e transforma em número
+    const idProcurado = parseInt(req.params.id);
+
+    // 2. Pega os novos dados que o Front-end enviou
+    const dadosAtualizados = req.body;
+
+    // 3. Procura o aluno no array
+    const aluno = bancoAlunos.find(a => a.id === idProcurado);
+
+    // Se encontrou o aluno, atualiza os dados dele
+    if (aluno) {
+        aluno.nome = dadosAtualizados.nome;
+        aluno.curso = dadosAtualizados.curso;
+        
+        return res.json({ mensagem: "Aluno atualizado com sucesso!" });
+    } else {
+        // Se não encontrou, avisa o Front-end
+        return res.status(404).json({ mensagem: "Aluno não encontrado." });
+    }
+});
 
 // Kaik: Inicia o servidor na porta 3000
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`🚀 Backend rodando em http://localhost:${PORT}`);
 });
+
