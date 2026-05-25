@@ -31,6 +31,18 @@ app.post('/alunos', (req, res) => {
     res.status(201).json({ mensagem: "Aluno matriculado com sucesso!" });
 });
 
+// ---------------------------------------------------------
+// RESPONSÁVEL: Lucas Dantas (US4 - Remover Aluno)
+// Rota para deletar um aluno específico usando o ID dele
+// ---------------------------------------------------------
+
+app.delete('/alunos/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    bancoAlunos = bancoAlunos.filter(aluno => aluno.id !== id);
+    res.json({ mensagem: "Aluno removido com sucesso!" });
+});
+
+
 
 // Kaik: Inicia o servidor na porta 3000
 const PORT = 3000;
