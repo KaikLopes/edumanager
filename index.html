@@ -19,7 +19,36 @@
     </style>
 </head>
 <body>
+    <div class="container">
+        <h2>📚 EduManager - Matrícula</h2>
+    
+    <div class="form-group">
+        <input type="text" id="nome" placeholder="Nome do Aluno"required>
+        <input type="text" id="curso" placeholder="Curso (Ex:ADS)" required>
+        <button onclick="adicionarAluno()">Matricular</button>
+    </div>
+        <h3>Alunos Matriculados</h3>
+        <ul id="listaAlunos"></ul>
+    </div>
+
+
     <script>
+        // Aponta para o nosso backend em Node
+        const API_URL = 'http://localhost:3000/alunos';
+
+
+
+        // ---------------------------------------------------------
+        // RESPONSÁVEL: Ruan Vituriano (US4 - Exclusão)
+        // ---------------------------------------------------------
+
+        async function deletarAluno(id) {
+            await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+            carregarAlunos(); // Atualiza a lista após deletar
+        }
+
+        // Carrega a lista automaticamente ao abrir a página
+        carregarAlunos();
     </script>
 </body>
 </html>
