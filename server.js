@@ -23,3 +23,9 @@ app.post('/alunos', (req, res) => {
     res.status(201).json({ mensagem: "Aluno matriculado com sucesso!" });
 });
 
+
+// Kaik: Inicia o servidor na porta 3000
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`🚀 Backend rodando em http://localhost:${PORT}`);
+});
