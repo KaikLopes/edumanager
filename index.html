@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +19,9 @@
             --shadow: 0 14px 30px rgba(23, 23, 23, 0.12);
         }
 
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
@@ -90,7 +93,9 @@
             font-size: 14px;
         }
 
-        .stat strong { font-weight: 600; }
+        .stat strong {
+            font-weight: 600;
+        }
 
         .card {
             background: var(--card);
@@ -146,9 +151,17 @@
             box-shadow: 0 8px 16px rgba(228, 87, 46, 0.25);
         }
 
-        button:hover { transform: translateY(-1px); }
+        button:hover {
+            transform: translateY(-1px);
+        }
 
-        ul { list-style-type: none; padding: 0; margin: 16px 0 0; display: grid; gap: 12px; }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 16px 0 0;
+            display: grid;
+            gap: 12px;
+        }
 
         li {
             background: #fff;
@@ -173,7 +186,10 @@
             border-radius: 14px 0 0 14px;
         }
 
-        .aluno-info small { color: var(--muted); font-size: 13px; }
+        .aluno-info small {
+            color: var(--muted);
+            font-size: 13px;
+        }
 
         .badge {
             display: inline-flex;
@@ -193,7 +209,66 @@
             box-shadow: none;
         }
 
-        .btn-delete:hover { transform: translateY(-1px); }
+        .btn-delete:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-edit {
+            background: var(--brand-2);
+            padding: 8px 12px;
+            box-shadow: none;
+            margin-right: 8px;
+        }
+
+        .btn-edit:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-salvar {
+            background: #2d7a3d;
+            padding: 8px 12px;
+            box-shadow: none;
+            margin-right: 8px;
+        }
+
+        .btn-salvar:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-cancelar {
+            background: var(--muted);
+            padding: 8px 12px;
+            box-shadow: none;
+        }
+
+        .btn-cancelar:hover {
+            transform: translateY(-1px);
+        }
+
+        .aluno-item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .aluno-item-view {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .aluno-item-edit {
+            display: flex;
+            gap: 8px;
+            align-items: flex-end;
+        }
+
+        .aluno-item-edit input {
+            padding: 8px 10px;
+            font-size: 13px;
+            flex: 1;
+            min-width: 120px;
+        }
 
         .empty {
             text-align: center;
@@ -205,27 +280,48 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes rise {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @media (max-width: 720px) {
-            .form-group { grid-template-columns: 1fr; }
-            button { width: 100%; }
+            .form-group {
+                grid-template-columns: 1fr;
+            }
+
+            button {
+                width: 100%;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <div class="page">
         <section class="hero">
             <h2 class="hero-title">EduManager - Matriculas em dia</h2>
-            <p class="hero-sub">Centralize os cadastros com rapidez, acompanhe a turma e mantenha tudo organizado em um so lugar.</p>
+            <p class="hero-sub">Centralize os cadastros com rapidez, acompanhe a turma e mantenha tudo organizado em um
+                so lugar.</p>
             <div class="stat-row">
                 <div class="stat">Total de alunos: <strong id="contadorAlunos">0</strong></div>
                 <div class="stat">Status: <strong>Aberto</strong></div>
@@ -251,7 +347,8 @@
             </div>
 
             <h3>Alunos matriculados</h3>
-            <div id="estadoVazio" class="empty" style="display: none;">Nenhum aluno cadastrado ainda. Comece pelo formulario acima.</div>
+            <div id="estadoVazio" class="empty" style="display: none;">Nenhum aluno cadastrado ainda. Comece pelo
+                formulario acima.</div>
             <ul id="listaAlunos"></ul>
         </section>
     </div>
@@ -282,10 +379,23 @@
             alunos.forEach(aluno => {
                 lista.innerHTML += `
                     <li>
-                        <div class="aluno-info">
-                            <strong>${aluno.nome}</strong> <br> <small>${aluno.curso}</small>
+                        <div class="aluno-item-info">
+                            <div class="aluno-item-view" id="view-${aluno.id}">
+                                <strong>${aluno.nome}</strong> <br> <small>${aluno.curso}</small>
+                            </div>
+                            <div class="aluno-item-edit" id="edit-${aluno.id}" style="display: none;">
+                                <input type="text" id="input-nome-${aluno.id}" value="${aluno.nome}" placeholder="Nome">
+                                <input type="text" id="input-curso-${aluno.id}" value="${aluno.curso}" placeholder="Curso">
+                            </div>
                         </div>
-                        <button class="btn-delete" onclick="deletarAluno(${aluno.id})">Remover</button>
+                        <div id="acoes-${aluno.id}">
+                            <button class="btn-edit" onclick="ativarEdicao(${aluno.id})">Editar</button>
+                            <button class="btn-delete" onclick="deletarAluno(${aluno.id})">Remover</button>
+                        </div>
+                        <div id="acoes-edit-${aluno.id}" style="display: none;">
+                            <button class="btn-salvar" onclick="salvarAluno(${aluno.id})">Salvar</button>
+                            <button class="btn-cancelar" onclick="cancelarEdicao(${aluno.id})">Cancelar</button>
+                        </div>
                     </li>
                 `;
             });
@@ -302,7 +412,7 @@
             if (!nome || !curso) return alert("Preencha todos os campos!");
 
             const id = Date.now(); // Gera um ID único pelo timestamp do navegador
-            
+
             await fetch(API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -322,8 +432,50 @@
             carregarAlunos(); // Atualiza a lista após deletar
         }
 
+        // ---------------------------------------------------------
+        // RESPONSÁVEL: Lucas Pereira (US5 - Atualização)
+        // ---------------------------------------------------------
+        function ativarEdicao(id) {
+            document.getElementById(`view-${id}`).style.display = 'none';
+            document.getElementById(`edit-${id}`).style.display = 'flex';
+            document.getElementById(`acoes-${id}`).style.display = 'none';
+            document.getElementById(`acoes-edit-${id}`).style.display = 'block';
+        }
+
+        function cancelarEdicao(id) {
+            document.getElementById(`view-${id}`).style.display = 'block';
+            document.getElementById(`edit-${id}`).style.display = 'none';
+            document.getElementById(`acoes-${id}`).style.display = 'block';
+            document.getElementById(`acoes-edit-${id}`).style.display = 'none';
+        }
+
+        async function salvarAluno(id) {
+            const nome = document.getElementById(`input-nome-${id}`).value;
+            const curso = document.getElementById(`input-curso-${id}`).value;
+
+            if (!nome || !curso) return alert("Preencha todos os campos!");
+
+            try {
+                const resposta = await fetch(`${API_URL}/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nome, curso })
+                });
+
+                if (resposta.ok) {
+                    carregarAlunos();
+                } else {
+                    alert("Erro ao atualizar aluno!");
+                }
+            } catch (erro) {
+                alert("Erro ao conectar com o servidor!");
+                console.error(erro);
+            }
+        }
+
         // Carrega a lista automaticamente ao abrir a página
         carregarAlunos();
     </script>
 </body>
+
 </html>
