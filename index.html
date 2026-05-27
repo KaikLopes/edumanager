@@ -5,30 +5,255 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduManager - Gestão de Alunos</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; margin: 0; padding: 40px; color: #333; }
-        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: #1a73e8; margin-top: 0; }
-        .form-group { display: flex; gap: 10px; margin-bottom: 20px; }
-        input { flex: 1; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; }
-        button { padding: 12px 20px; background-color: #1a73e8; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        button:hover { background-color: #1557b0; }
-        ul { list-style-type: none; padding: 0; }
-        li { background: #f8f9fa; margin-bottom: 10px; padding: 15px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid #1a73e8; }
-        .btn-delete { background-color: #dc3545; padding: 8px 12px; }
-        .btn-delete:hover { background-color: #c82333; }
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Space+Grotesk:wght@400;500;600&display=swap');
+
+        :root {
+            --bg: #f1efe9;
+            --ink: #171717;
+            --muted: #6a6a6a;
+            --brand: #e4572e;
+            --brand-2: #2e7d6a;
+            --card: #fffaf3;
+            --line: #eadfd2;
+            --shadow: 0 14px 30px rgba(23, 23, 23, 0.12);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+            background:
+                radial-gradient(900px 360px at 15% -10%, #ffd9c8 0%, rgba(255, 217, 200, 0) 70%),
+                radial-gradient(900px 360px at 85% -10%, #c7f0e2 0%, rgba(199, 240, 226, 0) 70%),
+                var(--bg);
+            margin: 0;
+            padding: 48px 24px 80px;
+            color: var(--ink);
+        }
+
+        .page {
+            max-width: 860px;
+            margin: 0 auto;
+            display: grid;
+            gap: 20px;
+        }
+
+        .hero {
+            background: linear-gradient(120deg, #fff4ea 0%, #fdf1e1 55%, #e8f5ef 100%);
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            padding: 28px 28px 22px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            animation: rise 450ms ease-out;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            right: -80px;
+            top: -80px;
+            width: 220px;
+            height: 220px;
+            border-radius: 999px;
+            background: radial-gradient(circle at 30% 30%, rgba(228, 87, 46, 0.25), rgba(228, 87, 46, 0));
+        }
+
+        .button-matricula {
+            margin-top: 20px;
+        }
+
+        .hero-title {
+            font-family: 'Fraunces', serif;
+            font-size: 30px;
+            margin: 0 0 6px;
+        }
+
+        .hero-sub {
+            color: var(--muted);
+            margin: 0 0 18px;
+            max-width: 520px;
+        }
+
+        .stat-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .stat {
+            background: white;
+            border: 1px solid var(--line);
+            padding: 10px 14px;
+            border-radius: 14px;
+            font-size: 14px;
+        }
+
+        .stat strong { font-weight: 600; }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr auto;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        label {
+            font-size: 14px;
+            color: var(--muted);
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input {
+            padding: 12px 14px;
+            border: 1px solid #d6c9b8;
+            border-radius: 10px;
+            font-size: 15px;
+            background: white;
+        }
+
+        input:focus {
+            outline: 2px solid rgba(228, 87, 46, 0.25);
+            border-color: var(--brand);
+        }
+
+        button {
+            padding: 12px 20px;
+            background: linear-gradient(120deg, var(--brand), #f28a4b);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            transition: transform 150ms ease, box-shadow 150ms ease;
+            box-shadow: 0 8px 16px rgba(228, 87, 46, 0.25);
+        }
+
+        button:hover { transform: translateY(-1px); }
+
+        ul { list-style-type: none; padding: 0; margin: 16px 0 0; display: grid; gap: 12px; }
+
+        li {
+            background: #fff;
+            padding: 14px 16px;
+            border-radius: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--line);
+            position: relative;
+            animation: fadeIn 240ms ease;
+        }
+
+        li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--brand), var(--brand-2));
+            border-radius: 14px 0 0 14px;
+        }
+
+        .aluno-info small { color: var(--muted); font-size: 13px; }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(46, 125, 106, 0.12);
+            color: var(--brand-2);
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .btn-delete {
+            background: #b8333a;
+            padding: 8px 12px;
+            box-shadow: none;
+        }
+
+        .btn-delete:hover { transform: translateY(-1px); }
+
+        .empty {
+            text-align: center;
+            color: var(--muted);
+            border: 1px dashed #dccfc1;
+            border-radius: 14px;
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes rise {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 720px) {
+            .form-group { grid-template-columns: 1fr; }
+            button { width: 100%; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>📚 EduManager - Matrícula</h2>
-    
-    <div class="form-group">
-        <input type="text" id="nome" placeholder="Nome do Aluno"required>
-        <input type="text" id="curso" placeholder="Curso (Ex:ADS)" required>
-        <button onclick="adicionarAluno()">Matricular</button>
-    </div>
-        <h3>Alunos Matriculados</h3>
-        <ul id="listaAlunos"></ul>
+
+    <div class="page">
+        <section class="hero">
+            <h2 class="hero-title">EduManager - Matriculas em dia</h2>
+            <p class="hero-sub">Centralize os cadastros com rapidez, acompanhe a turma e mantenha tudo organizado em um so lugar.</p>
+            <div class="stat-row">
+                <div class="stat">Total de alunos: <strong id="contadorAlunos">0</strong></div>
+                <div class="stat">Status: <strong>Aberto</strong></div>
+                <div class="stat">Ultima atualizacao: <strong id="ultimaAtualizacao">-</strong></div>
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="form-group">
+                <div class="field">
+                    <label for="nome">Nome do aluno</label>
+                    <input type="text" id="nome" placeholder="Ex: Ana Souza" required>
+                </div>
+                <div class="field">
+                    <label for="curso">Curso</label>
+                    <input type="text" id="curso" placeholder="Ex: ADS" required>
+                </div>
+                <button class="button-matricula" onclick="adicionarAluno()">Matricular</button>
+            </div>
+
+            <div class="stat-row">
+                <span class="badge">Lista atualizada</span>
+            </div>
+
+            <h3>Alunos matriculados</h3>
+            <div id="estadoVazio" class="empty" style="display: none;">Nenhum aluno cadastrado ainda. Comece pelo formulario acima.</div>
+            <ul id="listaAlunos"></ul>
+        </section>
     </div>
 
     <script>
@@ -38,29 +263,60 @@
         // ---------------------------------------------------------
         // RESPONSÁVEL: Lucas Pereira (US2 - Listagem)
         // ---------------------------------------------------------
+        function atualizarInfos(alunos) {
+            const contador = document.getElementById('contadorAlunos');
+            const ultimaAtualizacao = document.getElementById('ultimaAtualizacao');
+            const estadoVazio = document.getElementById('estadoVazio');
+
+            contador.textContent = alunos.length;
+            ultimaAtualizacao.textContent = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            estadoVazio.style.display = alunos.length ? 'none' : 'block';
+        }
+
         async function carregarAlunos() {
             const resposta = await fetch(API_URL);
             const alunos = await resposta.json();
             const lista = document.getElementById('listaAlunos');
             lista.innerHTML = '';
-            
+
             alunos.forEach(aluno => {
                 lista.innerHTML += `
                     <li>
-                        <div>
-                            <strong>${aluno.nome}</strong> 
-                            <br> 
-                            <small>${aluno.curso}</small>
+                        <div class="aluno-info">
+                            <strong>${aluno.nome}</strong> <br> <small>${aluno.curso}</small>
                         </div>
                         <button class="btn-delete" onclick="deletarAluno(${aluno.id})">Remover</button>
                     </li>
                 `;
             });
+
+            atualizarInfos(alunos);
         }
+
+        // ---------------------------------------------------------
+        // RESPONSÁVEL: Lucas Dantas (US3 - Cadastro)
+        // ---------------------------------------------------------
+        async function adicionarAluno() {
+            const nome = document.getElementById('nome').value;
+            const curso = document.getElementById('curso').value;
+            if (!nome || !curso) return alert("Preencha todos os campos!");
+
+            const id = Date.now(); // Gera um ID único pelo timestamp do navegador
+            
+            await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, nome, curso })
+            });
+
+            document.getElementById('nome').value = '';
+            document.getElementById('curso').value = '';
+            carregarAlunos(); // Atualiza a lista
+        }
+
         // ---------------------------------------------------------
         // RESPONSÁVEL: Ruan Vituriano (US4 - Exclusão)
         // ---------------------------------------------------------
-
         async function deletarAluno(id) {
             await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
             carregarAlunos(); // Atualiza a lista após deletar
@@ -69,6 +325,5 @@
         // Carrega a lista automaticamente ao abrir a página
         carregarAlunos();
     </script>
-
 </body>
 </html>
